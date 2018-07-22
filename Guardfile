@@ -50,3 +50,20 @@ guard :minitest, spring: "bin/rails test", all_on_start: false do
     ['test/integration/microposts_interface_test.rb']
   end
 end
+
+def integration_tests(resource = :all)
+  if resource == :all
+    Dir["test/integration/*"]
+  else
+    Dir["test/integration/#{resource}_*.rb"]
+  end
+end
+
+def controller_test(resource)
+  "test/controllers/#{resource}_controller_test.rb"
+end
+
+#returns all the tests from the given resource
+def resource_tests(resource)
+  integration_tests(resource) << controller_test(resource)
+end
